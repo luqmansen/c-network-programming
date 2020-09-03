@@ -3,7 +3,6 @@
 //
 #include <stdlib.h>
 #include <stdio.h>
-#include <sys/types.h> // for some of data definition used in sys calls
 #include <sys/socket.h> // for structure definition needed for socket
 #include <netinet/in.h> // constant and struct for internet domain address
 #include <strings.h>
@@ -11,8 +10,7 @@
 #include <memory.h>
 #include <zconf.h>
 
-//This function called to print error message
-//when sys calls fails.
+//This function called to print error message when sys calls fails.
 void error(char *msg){
     perror(msg);
     exit(1);
@@ -69,37 +67,43 @@ int main(int argc, char *argv[]){
     // This is for ip address of the host, for server code, this will be the IP of the
     // the machine on which the server is running. INADDR_ANY means, it's accept any
     // incoming message
-    serv_addr.sin_addr.s_addr = INADDR_ANY;
+    serv_addr.sin_addr.s_addr = htonl(INADDR_ANY);
 
-    // Bind syscall bind asocket to an address. This code bind current host and port
-    // on the server. Bind takes tree args, first is the socket file desc. Second args
+    // Bind syscall bind a socket to an address. This code bind current host and port
+    // on the this server. Bind takes tree args, first is the socket file desc. Second args
     // is the address to which is bound. This is a pinter to a structure of type sockaddr,
     // but since we only have a struct of serv_addr (which is type of sockaddr_in, it has
     // to be casted to correct type. Third is the size of the addr to which it's bound
     if (bind(sockfd, (struct sockaddr*) &serv_addr, sizeof(serv_addr))<0 )
         error("Error on binding to socket");
 
-    printf("Server started at %c:%d", INADDR_ANY, portno);
+    printf("Server started at 0.0.0.0:%d\r\n", portno);
+
     // Listen sys call allow process to listen to socket for a connection. First args is
     // a file descriptor to a socket. Second args is the size of backlog queue (the number
     // of the connection can waiting while process is handling conn. 5 is maximum size permitted
     // by most system
     listen(sockfd, 5);
 
-
+    // Infinite loop while listening for any connection from client
     for (;;){
         clilen = sizeof(cli_addr);
+        // accept socket connection and to a connfd file descriptor
         connfd = accept(sockfd, (struct sockaddr*) &cli_addr,(socklen_t*) &clilen);
                 if (connfd < 0)
                     error("Error accepting connection");
 
+        // Just get the current host time
         ticks = time(NULL);
+
+        // write time to output buffer
         snprintf(buffer, sizeof(buffer), "%.24s\r\n", ctime(&ticks));
+
+        // write response to connection socket
         if (write(connfd, buffer, strlen(buffer)) < 0)
             error("Error writing to socket");
 
+        // close the socket connection
         close(connfd);
     }
-
-
 }
