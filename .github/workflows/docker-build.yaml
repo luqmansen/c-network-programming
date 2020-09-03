@@ -14,8 +14,8 @@ jobs:
       - name: build binary
         run: |
           sudo apt install build-essential
-          ls -lah
-          make build-server
+          make build-server -C daytime/
+
 
       - name: Build and push Docker images
         uses: docker/build-push-action@v1
