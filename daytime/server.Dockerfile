@@ -2,7 +2,7 @@ FROM alpine:3.12.0 as build
 
 WORKDIR /home/
 
-RUN apk add --no-cache gcc musl-dev
+RUN apk add gcc musl-dev zlib-dev
 
 COPY server.c .
 
