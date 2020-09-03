@@ -17,5 +17,6 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
           repository: luqmansen/daytime
+          path: ./daytime/ 
           dockerfile: ./daytime/server.Dockerfile
           tags: latest
