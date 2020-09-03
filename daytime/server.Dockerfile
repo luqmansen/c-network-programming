@@ -1,18 +1,20 @@
-FROM alpine:3.12.0 as build
-
-WORKDIR /home/
-
-RUN apk add gcc musl-dev zlib-dev
-
-COPY server.c .
-
-RUN gcc server.c -o server.o -static
-
-
+# need uncomment some stuff to build locally
 FROM alpine:3.12.0
 
+ARG SOURCE
+ARG PORT
+
 WORKDIR /home/
 
-COPY --from=build /home/server.o .
+#RUN apk add --no-cache gcc musl-dev zlib-dev
+#COPY ${SOURCE} .
+#RUN gcc ${SOURCE} -o main.o -static
 
-CMD ["./server.o", "6969"]
+
+#FROM alpine:3.12.0
+#WORKDIR /home/
+#COPY --from=build /home/main.o .
+COPY ./${SOURCE} /home/main.o
+
+# Also change this depends on the program
+CMD ./main.o ${PORT}

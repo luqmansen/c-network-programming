@@ -11,6 +11,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
+      - name: build binary
+        run: |
+          sudo apt install build-essential
+          make buid-server
+
       - name: Build and push Docker images
         uses: docker/build-push-action@v1
         with:
