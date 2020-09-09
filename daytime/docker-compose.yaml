@@ -1,0 +1,32 @@
+version: '3.7'
+services:
+  server:
+    hostname: daytime-server
+    build:
+      context: .
+      dockerfile: server.Dockerfile
+    environment:
+     - PORT=6969
+     - SOURCE=server.o
+    ports:
+      - "6969:6969"
+    networks:
+      daytime:
+
+  client:
+    hostname: daytime-client
+    build:
+      context: .
+      dockerfile: client.Dockerfile
+    environment:
+      - SOURCE=client.o
+      - PORT=6969
+      - HOST=server
+    entrypoint: sh
+    networks:
+      daytime:
+
+
+networks:
+  daytime:
+    driver: bridge
