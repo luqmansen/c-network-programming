@@ -6,3 +6,7 @@ I'm trying to make this repo less baggage as possible (using stlib as much as po
 so that it's able to run on any unix system (as dockerfile also provided).  
 
 Comment Included in every source code for my own understanding
+
+You can start reading the basic from daytime code which has lots of comment, 
+some of the next code are inherited from those code with the comment
+only explaining new things 

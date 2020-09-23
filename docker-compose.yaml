@@ -3,7 +3,7 @@ services:
   server:
     hostname: daytime-server
     build:
-      context: .
+      context: daytime
       dockerfile: server.Dockerfile
     environment:
      - PORT=6969
@@ -16,7 +16,7 @@ services:
   client:
     hostname: daytime-client
     build:
-      context: .
+      context: daytime
       dockerfile: client.Dockerfile
     environment:
       - SOURCE=client.o

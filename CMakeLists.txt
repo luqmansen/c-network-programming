@@ -1,0 +1,11 @@
+cmake_minimum_required(VERSION 3.17)
+project(toy_server C)
+
+set(CMAKE_C_STANDARD 11)
+include_directories(include)
+#include("include/log.h")
+add_executable(echoserverfork.o echoserverfork.c)
+add_executable(echoserver.o echoserver.c)
+add_executable(echoclient.o echoclient.c)
+add_executable(daytimeclient.o daytimeclient.c)
+add_executable(daytimeserver.o daytimeserver.c)

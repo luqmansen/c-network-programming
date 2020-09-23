@@ -1,9 +1,9 @@
 
 # server stuff
 server:
-	gcc echoserver.c -o server.o -static
+	gcc server.c -o server.o -static
 
-docker-server: server server.o
+docker-server: server daytime/server.o
 	docker build -f server.Dockerfile --build-arg SOURCE=server.o -t daytime-server .
 
 run-server:
@@ -13,9 +13,9 @@ run-server:
 # client stuff
 
 client:
-	gcc echoclient.c -o client.o -static
+	gcc client.c -o client.o -static
 
-docker-client: client client.o
+docker-client: client daytime/client.o
 	docker build -f client.Dockerfile --build-arg SOURCE=client.o -t daytime-client .
 
 run-client:
